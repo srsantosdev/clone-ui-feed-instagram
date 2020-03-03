@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 import LazyImage from '~/components/LazyImage';
 
@@ -40,15 +40,20 @@ const Feed = ({ navigation }) => {
 
   async function refreshList() {
     setRefreshing(true);
-
     await loadPage(1, true);
-
     setRefreshing(false);
   }
 
   const handleViewableChanged = useCallback(({ changed }) => {
     setViewable(changed.map(({ item }) => item.id));
   }, []);
+
+  const renderLoading = () => {
+    if (loading) {
+      return <Loading />;
+    }
+    return false;
+  };
 
   return (
     <View>
@@ -57,7 +62,7 @@ const Feed = ({ navigation }) => {
         keyExtractor={post => String(post.id)}
         onEndReached={() => loadPage()}
         onEndReachedThreshold={0.1}
-        ListFooterComponent={loading && <Loading />}
+        ListFooterComponent={renderLoading}
         onViewableItemsChanged={handleViewableChanged}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 10 }}
         onRefresh={refreshList}
@@ -76,7 +81,8 @@ const Feed = ({ navigation }) => {
                 smallSource={{ uri: item.small }}
               />
               <Description>
-                <Name>{item.author.name}</Name> {item.description}
+                <Name>{item.author.name}</Name>
+                <Text>{item.description}</Text>
               </Description>
             </Post>
           );

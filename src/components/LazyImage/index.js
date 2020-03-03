@@ -5,12 +5,7 @@ import { Small, Original } from './styles';
 
 const OriginalAnimated = Animated.createAnimatedComponent(Original);
 
-export default function LazyImage({
-  smallSource,
-  source,
-  aspectRatio,
-  shouldLoad,
-}) {
+export default function LazyImage({ smallSource, source, ratio, shouldLoad }) {
   const opacity = new Animated.Value(0);
   const [loaded, setLoaded] = useState(false);
 
@@ -32,14 +27,14 @@ export default function LazyImage({
     <>
       <Small
         source={smallSource}
-        ratio={aspectRatio}
+        ratio={ratio}
         resizemode="contain"
         blurRadius={2}>
         {loaded && (
           <OriginalAnimated
             style={{ opacity }}
             source={source}
-            ratio={aspectRatio}
+            ratio={ratio}
             resizemode="contain"
             onLoadEnd={handleAnimate}
           />

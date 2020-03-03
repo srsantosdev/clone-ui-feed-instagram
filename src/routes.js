@@ -1,13 +1,28 @@
 import React from 'react';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
-import { Image } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Header from '~/components/Header';
 
 import logo from '~/assets/instagram.png';
 
 import Feed from '~/pages/Feed';
 
-const Routes = createAppContainer(
-  createStackNavigator(
+const { Navigator, Screen } = createStackNavigator();
+
+const Routes = () => (
+  <Navigator
+    screenOptions={{
+      headerTitleAlign: 'center',
+      headerTitle: <Header />,
+      headerStyle: {
+        backgroundColor: '#f5f5f5',
+      },
+    }}>
+    <Screen name="Feed" component={Feed} />
+  </Navigator>
+);
+
+/* const Routes = createAppContainer(
+  createStackNavigator(s
     { Feed },
     {
       headerLayoutPreset: 'center',
@@ -19,6 +34,6 @@ const Routes = createAppContainer(
       },
     },
   ),
-);
+); */
 
 export default Routes;
